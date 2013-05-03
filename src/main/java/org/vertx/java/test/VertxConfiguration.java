@@ -42,5 +42,6 @@ public @interface VertxConfiguration {
   String modsDir() default "";
 
   boolean injectResources() default true;
-
+  
+  String repo() default "";
 }

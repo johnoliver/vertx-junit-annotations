@@ -64,6 +64,7 @@ public class VertxJUnit4ClassRunner extends JUnit4ClassRunnerAdapter {
     VertxBuilder builder = new VertxBuilder();
 
     String vertxMods = System.getProperty("vertx.mods", "build/tmp/mods-test");
+    String vertxRepo = System.getProperty("vertx.test.repo");
     this.configuration = getDescription().getAnnotation(VertxConfiguration.class);
     if (configuration != null) {
       if (!"".equalsIgnoreCase(configuration.hostname())) {
@@ -76,6 +77,9 @@ public class VertxJUnit4ClassRunner extends JUnit4ClassRunnerAdapter {
         vertxMods = configuration.modsDir();
         System.setProperty("vertx.mods", vertxMods);
       }
+      if (!"".equalsIgnoreCase(configuration.repo())) {
+          vertxRepo = configuration.repo();
+        }
     }
 
     this.modDir = new File(vertxMods);
@@ -84,7 +88,7 @@ public class VertxJUnit4ClassRunner extends JUnit4ClassRunnerAdapter {
     }
 
     this.vertx = builder.build();
-    this.manager = new VerticleManager(vertx);
+    this.manager = new VerticleManager(vertx, vertxRepo);
   }
 
   @Override
